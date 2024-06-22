@@ -9,19 +9,15 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="# 第一个内容
-## 第一个内容
-### 第一个内容
-#### 第一个内容。">
-<meta property="og:title" content="第一个内容第一个内容第一个内容第一个内容">
-<meta property="og:description" content="# 第一个内容
-## 第一个内容
-### 第一个内容
-#### 第一个内容。">
+<meta name="description" content="## （一）概述
+在平常的工作中，经常会遇到要写接口的情况，现在最常用的就是http接口，今天我就介绍一下如何去写一个规范的http接口。">
+<meta property="og:title" content="如何用Java写一个规范的http接口？">
+<meta property="og:description" content="## （一）概述
+在平常的工作中，经常会遇到要写接口的情况，现在最常用的就是http接口，今天我就介绍一下如何去写一个规范的http接口。">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://wxhnssh.github.io/post/di-yi-ge-nei-rong-di-yi-ge-nei-rong-di-yi-ge-nei-rong-di-yi-ge-nei-rong.html">
+<meta property="og:url" content="https://wxhnssh.github.io/post/ru-he-yong-Java-xie-yi-ge-gui-fan-de-http-jie-kou-%EF%BC%9F.html">
 <meta property="og:image" content="https://avatars.githubusercontent.com/u/56063172?u=67c4fcef51a6f9632b498c14a0124d401c0d2441&v=4">
-<title>第一个内容第一个内容第一个内容第一个内容</title>
+<title>如何用Java写一个规范的http接口？</title>
 
 
 </head>
@@ -52,7 +48,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">第一个内容第一个内容第一个内容第一个内容</h1>
+<h1 class="postTitle">如何用Java写一个规范的http接口？</h1>
 <div class="title-right">
     <a href="https://wxhnssh.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -60,7 +56,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://github.com/wxhnssh/wxhnssh.github.io/issues/2" target="_blank" class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/wxhnssh/wxhnssh.github.io/issues/3" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -76,10 +72,172 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h1>第一个内容</h1>
-<h2>第一个内容</h2>
-<h3>第一个内容</h3>
-<h4>第一个内容</h4></div>
+<div class="markdown-body" id="postBody"><h2>（一）概述</h2>
+<p>在平常的工作中，经常会遇到要写接口的情况，现在最常用的就是http接口，今天我就介绍一下如何去写一个规范的http接口。</p>
+<h2>（二）搭建项目</h2>
+<p>首先我们先搭建一个SpringBoot项目，如何搭建这里就不讲了，引入相关的依赖：</p>
+<pre class="notranslate"><code class="notranslate">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+    &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+    &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+    &lt;optional&gt;true&lt;/optional&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h2>（三）写一个通用结果对象</h2>
+<p>一个接口的返回信息应该至少包含以下几项：</p>
+<p>1、结果编码</p>
+<p>2、结果信息</p>
+<p>3、返回数据</p>
+<p>因此新建一个类来记录返回的结果集Result ：</p>
+<pre class="notranslate"><code class="notranslate">@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Result {
+    private int code;
+    private String message;
+    private Object data;
+}
+</code></pre>
+<p>其中结果编码和结果信息需要是统一的，这里用枚举类型最合适，新建一个枚举类ResponseCode</p>
+<pre class="notranslate"><code class="notranslate">public enum ResponseCode {
+
+    // 系统模块
+    SUCCESS(0, "操作成功"),
+    ERROR(1, "操作失败"),
+    SERVER_ERROR(500, "服务器异常"),
+
+    // 通用模块 1xxxx
+    ILLEGAL_ARGUMENT(10000, "参数不合法"),
+    REPETITIVE_OPERATION(10001, "请勿重复操作"),
+    ACCESS_LIMIT(10002, "请求太频繁, 请稍后再试"),
+    MAIL_SEND_SUCCESS(10003, "邮件发送成功"),
+
+    // 用户模块 2xxxx
+    NEED_LOGIN(20001, "登录失效"),
+    USERNAME_OR_PASSWORD_EMPTY(20002, "用户名或密码不能为空"),
+    USERNAME_OR_PASSWORD_WRONG(20003, "用户名或密码错误"),
+    USER_NOT_EXISTS(20004, "用户不存在"),
+    WRONG_PASSWORD(20005, "密码错误"),
+            ;
+
+    ResponseCode(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    private Integer code;
+
+    private String msg;
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+}
+
+</code></pre>
+<h2>（四）接口编写</h2>
+<p>上面的两个类可以作为其他项目的通用类，要写接口时直接放代码就行，接下来写一个接口测试一下：</p>
+<p>新建一个ResponseController</p>
+<pre class="notranslate"><code class="notranslate">@RestController
+public class ResponseController {
+
+    @RequestMapping(value = "/getData",method = RequestMethod.GET)
+    public Result getData(){
+        Map&lt;String,Object&gt; map=new HashMap&lt;&gt;();
+        map.put("name","javayz");
+        map.put("age","23");
+        Map&lt;String,String&gt; childMap=new HashMap&lt;&gt;();
+        childMap.put("home","浙江");
+        childMap.put("job","java");
+        map.put("childMap",childMap);
+        Result result=new Result(ResponseCode.SUCCESS.getCode(),ResponseCode.SUCCESS.getMsg(),map);
+        return result;
+    }
+
+}
+</code></pre>
+<p>这里展示的是通过Map集合插入数据，最后返回Result，调用结果如下：</p>
+<pre class="notranslate"><code class="notranslate">{
+    "code": 0,
+    "message": "操作成功",
+    "data": {
+        "name": "javayz",
+        "childMap": {
+            "job": "java",
+            "home": "浙江"
+        },
+        "age": "23"
+    }
+}
+</code></pre>
+<p>除了使用Map传递数据之外，还可以通过对象来传递数据，新建两个类分别是User和UserDetail：</p>
+<pre class="notranslate"><code class="notranslate">@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class User {
+    private String name;
+    private String age;
+    private UserDetail userDetail;
+}
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserDetail {
+    private String home;
+    private String job;
+}
+</code></pre>
+<p>新写一个Get请求的接口，在接口中用对象传递数据</p>
+<pre class="notranslate"><code class="notranslate">@RequestMapping(value = "/getData2",method = RequestMethod.GET)
+public Result getData2(){
+    UserDetail userDetail=new UserDetail("浙江","java");
+    User user=new User("javayz","23",userDetail);
+    Result result=new Result(ResponseCode.SUCCESS.getCode(),ResponseCode.SUCCESS.getMsg(),user);
+    return result;
+}
+</code></pre>
+<p>调用接口后返回值如下：</p>
+<pre class="notranslate"><code class="notranslate">{
+    "code": 0,
+    "message": "操作成功",
+    "data": {
+        "name": "javayz",
+        "age": "23",
+        "userDetail": {
+            "home": "浙江",
+            "job": "java"
+        }
+    }
+}
+</code></pre>
+<h2>（五）总结</h2>
+<p>一般来说公司里都会有一套自己的规则，如果是自己写一个新的项目，那么上面的这几个通用类就可以直接用了。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
 <div class="comments" id="comments"></div>
