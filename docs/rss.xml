@@ -1,3 +1,32 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>wxhnssh's blog</title><link>https://wxhnssh.github.io</link><description>便纵有千种风情,更与何人说</description><copyright>wxhnssh's blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/56063172?u=67c4fcef51a6f9632b498c14a0124d401c0d2441&amp;v=4</url><title>avatar</title><link>https://wxhnssh.github.io</link></image><lastBuildDate>Tue, 09 Jul 2024 08:47:10 +0000</lastBuildDate><managingEditor>wxhnssh's blog</managingEditor><ttl>60</ttl><webMaster>wxhnssh's blog</webMaster><item><title>如何用Java写一个规范的http接口？</title><link>https://wxhnssh.github.io/post/ru-he-yong-Java-xie-yi-ge-gui-fan-de-http-jie-kou-%EF%BC%9F.html</link><description>## （一）概述&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>wxhnssh's blog</title><link>https://wxhnssh.github.io</link><description>便纵有千种风情,更与何人说</description><copyright>wxhnssh's blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/56063172?u=67c4fcef51a6f9632b498c14a0124d401c0d2441&amp;v=4</url><title>avatar</title><link>https://wxhnssh.github.io</link></image><lastBuildDate>Wed, 10 Jul 2024 06:20:19 +0000</lastBuildDate><managingEditor>wxhnssh's blog</managingEditor><ttl>60</ttl><webMaster>wxhnssh's blog</webMaster><item><title>NVM&amp;NRM基本指令</title><link>https://wxhnssh.github.io/post/NVM%26NRM-ji-ben-zhi-ling.html</link><description>## nvm 常用命令&#13;
+nvm install latest： 安装最新的 nodejs 版本&#13;
+nvm install 11.12.0： 安装对应的 nodejs 版本&#13;
+nvm uninstall 11.12.0：卸载对应的 nodejs 版本&#13;
+nvm list available： 列出所有可用的 nodejs 版本&#13;
+nvm list： 查看 nvm 列出已经安装的 nodejs 版本&#13;
+nvm use 11.12.0： 使用对应的 nodejs 版本&#13;
+&#13;
+## nrm 常用命令&#13;
+nrm ls ：查看所有配置好的源以及对应名称&#13;
+nrm add company http://npm.xxx.cn：添加源，company 是名称，可以自行命名，后面是源的 url 地址&#13;
+nrm del company ：删除源，根据名称 company 可以删除对应的源&#13;
+nrm test [registry] ：测试源的速度，不加对应的 registry 名称，测试所有源的速度，添加对应的名称，比如 company，就是测试 company 对应的源的速度&#13;
+nrm use company ：切换源，即可使用 company 对应名称的源&#13;
+&#13;
+## 额外知识点&#13;
+安装 cnpm：npm install -g cnpm --registry=https://registry.npm.taobao.org&#13;
+&#13;
+设置 npm 全局包的安装路径（如果不想自己控制路径就不需要做下面这些操作）：&#13;
+&#13;
+执行命令：npm config set prefix 'D:\DevTools\Nvm\npm-global'&#13;
+设置环境变量：将 Path 中： C:\\Users\\Administrator\\AppData\\Roaming\\npm 修改为 D:\\DevTools\\Nvm\\npm-global&#13;
+查看已经安装的全局包：npm ls -g --depth=0&#13;
+&#13;
+手动设置 npm 源&#13;
+&#13;
+npm config get registry ： 查看 npm 当前源&#13;
+npm config set registry https://registry.npm.taobao.org/：设置 npm 源为淘宝&#13;
+npm install --registry=https://registry.npm.taobao.org ：使用特定源安装所有依赖的包&#13;
+npm install express --registry=https://registry.npm.taobao.org：使用特定源安装 express 包。</description><guid isPermaLink="true">https://wxhnssh.github.io/post/NVM%26NRM-ji-ben-zhi-ling.html</guid><pubDate>Wed, 10 Jul 2024 06:18:07 +0000</pubDate></item><item><title>如何用Java写一个规范的http接口？</title><link>https://wxhnssh.github.io/post/ru-he-yong-Java-xie-yi-ge-gui-fan-de-http-jie-kou-%EF%BC%9F.html</link><description>## （一）概述&#13;
 在平常的工作中，经常会遇到要写接口的情况，现在最常用的就是http接口，今天我就介绍一下如何去写一个规范的http接口。</description><guid isPermaLink="true">https://wxhnssh.github.io/post/ru-he-yong-Java-xie-yi-ge-gui-fan-de-http-jie-kou-%EF%BC%9F.html</guid><pubDate>Fri, 21 Jun 2024 16:21:04 +0000</pubDate></item></channel></rss>
